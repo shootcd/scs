@@ -1,4 +1,6 @@
-
+###Perform following tasks: (i) View data collection forms and/or import 
+##onemode /two-mode datasets; (ii) Basic Networks matrices 
+##transformations
 nodes <- read.csv("D:/MSc/Sem 3/nodes.csv", header=T, , as.is=T)
 head(nodes)
 links <- read.csv("D:/MSc/Sem 3/edges.csv", header=T, as.is=T)
