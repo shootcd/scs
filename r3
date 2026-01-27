@@ -1,3 +1,6 @@
+
+###Compute the following node level measures: (i) Density; (ii) Degree; 
+##(iii) Reciprocity; (iv) Transitivity; (v) Centralization; (vi) Clustering. 
 library(igraph)
 
 ng <- graph.formula(
