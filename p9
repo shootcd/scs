@@ -1,0 +1,74 @@
+###SVD analysis
+# Install and import libraries
+!pip install networkx matplotlib numpy
+
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+from numpy.linalg import svd
+
+# -------------------------------
+# STEP 1: Create a Sample Network
+# -------------------------------
+
+G = nx.Graph()
+
+edges = [
+    ('A', 'B'), ('A', 'C'),
+    ('B', 'C'), ('B', 'D'),
+    ('C', 'E'), ('D', 'E')
+]
+
+G.add_edges_from(edges)
+
+# -------------------------------
+# STEP 2: Visualization of Network
+# -------------------------------
+
+plt.figure(figsize=(6,6))
+pos = nx.spring_layout(G, seed=42)
+
+nx.draw(G, pos,
+        with_labels=True,
+        node_color="lightblue",
+        node_size=1800,
+        edge_color="gray")
+
+plt.title("Practical 9: Given Network")
+plt.show()
+
+# -------------------------------
+# STEP 3: Adjacency Matrix
+# -------------------------------
+
+A = nx.to_numpy_array(G)
+print("Adjacency Matrix:")
+print(A)
+
+# -------------------------------
+# STEP 4: Perform SVD
+# -------------------------------
+
+U, S, VT = svd(A)
+
+print("\nSingular Values:")
+print(S)
+
+print("\nLeft Singular Vectors (U):")
+print(U)
+
+print("\nRight Singular Vectors (V^T):")
+print(VT)
+
+# -------------------------------
+# STEP 5: Rank-k Approximation
+# -------------------------------
+
+k = 2   # keep top-2 singular values
+S_k = np.zeros_like(A)
+np.fill_diagonal(S_k, S[:k])
+
+A_k = U @ S_k @ VT
+
+print("\nRank-", k, "Approximation of Adjacency Matrix:")
+print(np.round(A_k, 3))
