@@ -1,0 +1,66 @@
+#####Sociogram
+# Install and import libraries
+!pip install networkx matplotlib pandas numpy
+
+import networkx as nx
+import matplotlib.pyplot as plt
+import pandas as pd
+from networkx.algorithms import bipartite
+
+# -------------------------------
+# STEP 1: Create Dataset
+# -------------------------------
+
+data = {
+    "Person": ["P1", "P1", "P2", "P2", "P3", "P4", "P4"],
+    "Committee": ["C1", "C2", "C1", "C3", "C2", "C2", "C3"]
+}
+
+df = pd.DataFrame(data)
+print("Persons–Committees Dataset:")
+print(df)
+
+# -------------------------------
+# STEP 2: Create Two-Mode Network
+# -------------------------------
+
+B = nx.Graph()
+B.add_edges_from(list(zip(df["Person"], df["Committee"])))
+
+# -------------------------------
+# STEP 3: Persons-by-Persons Network
+# -------------------------------
+
+persons = set(df["Person"])
+person_network = bipartite.projected_graph(B, persons)
+
+plt.figure(figsize=(6,6))
+pos1 = nx.spring_layout(person_network, seed=42)
+
+nx.draw(person_network, pos1,
+        with_labels=True,
+        node_color="lightgreen",
+        node_size=1800,
+        edge_color="gray")
+
+plt.title("Persons-by-Persons Sociogram")
+plt.show()
+
+# -------------------------------
+# STEP 4: Committee-by-Committee Network
+# -------------------------------
+
+committees = set(df["Committee"])
+committee_network = bipartite.projected_graph(B, committees)
+
+plt.figure(figsize=(6,6))
+pos2 = nx.spring_layout(committee_network, seed=42)
+
+nx.draw(committee_network, pos2,
+        with_labels=True,
+        node_color="lightblue",
+        node_size=1800,
+        edge_color="gray")
+
+plt.title("Committee-by-Committee Sociogram")
+plt.show()
