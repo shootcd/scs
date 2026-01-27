@@ -1,0 +1,88 @@
+###dataset
+# Install and import libraries
+!pip install networkx matplotlib pandas numpy
+
+import networkx as nx
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+from networkx.algorithms import bipartite
+
+# -------------------------------
+# PART 1: Import Dataset
+# -------------------------------
+
+data = {
+    "Person": ["P1", "P1", "P2", "P2", "P3", "P4"],
+    "Committee": ["C1", "C2", "C1", "C3", "C2", "C3"]
+}
+
+df = pd.DataFrame(data)
+print("Imported Dataset:")
+print(df)
+
+# -------------------------------
+# PART 2: Create Two-Mode Network
+# -------------------------------
+
+B = nx.Graph()
+B.add_edges_from(list(zip(df["Person"], df["Committee"])))
+
+plt.figure(figsize=(6, 6))
+pos = nx.spring_layout(B, seed=42)
+
+nx.draw(B, pos,
+        with_labels=True,
+        node_color="lightblue",
+        node_size=1800,
+        edge_color="gray")
+
+plt.title("Two-Mode Network (Persons – Committees)")
+plt.show()
+
+# -------------------------------
+# PART 3: One-Mode Projection
+# -------------------------------
+
+persons = set(df["Person"])
+one_mode = bipartite.projected_graph(B, persons)
+
+plt.figure(figsize=(6, 6))
+pos1 = nx.spring_layout(one_mode, seed=42)
+
+nx.draw(one_mode, pos1,
+        with_labels=True,
+        node_color="lightgreen",
+        node_size=1800,
+        edge_color="gray")
+
+plt.title("One-Mode Network (Persons Projection)")
+plt.show()
+
+# -------------------------------
+# PART 4: Incidence Matrix (PRINT ONLY)
+# -------------------------------
+
+persons_list = sorted(df["Person"].unique())
+committees_list = sorted(df["Committee"].unique())
+
+incidence_matrix = pd.DataFrame(0, index=persons_list, columns=committees_list)
+
+for _, row in df.iterrows():
+    incidence_matrix.loc[row["Person"], row["Committee"]] = 1
+
+print("\nIncidence Matrix (Persons × Committees):")
+print(incidence_matrix)
+
+# -------------------------------
+# PART 5: Adjacency Matrices (PRINT ONLY)
+# -------------------------------
+
+two_mode_adj = nx.to_numpy_array(B)
+one_mode_adj = nx.to_numpy_array(one_mode)
+
+print("\nTwo-Mode Adjacency Matrix:")
+print(two_mode_adj)
+
+print("\nOne-Mode Adjacency Matrix:")
+print(one_mode_adj)
