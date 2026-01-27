@@ -1,0 +1,93 @@
+####two mode node peripheriy
+# Install and import libraries
+!pip install networkx matplotlib pandas numpy
+
+import networkx as nx
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+# -------------------------------
+# STEP 1: Create Two-Mode Dataset
+# -------------------------------
+
+data = {
+    "Person": ["P1", "P1", "P2", "P2", "P3", "P4", "P4", "P5"],
+    "Committee": ["C1", "C2", "C1", "C3", "C2", "C2", "C3", "C3"]
+}
+
+df = pd.DataFrame(data)
+print("Two-Mode Dataset (Students–Committees):")
+print(df)
+
+# -------------------------------
+# STEP 2: Create Two-Mode Network
+# -------------------------------
+
+B = nx.Graph()
+B.add_edges_from(list(zip(df["Person"], df["Committee"])))
+
+# -------------------------------
+# STEP 3: Degree-Based Core–Periphery
+# -------------------------------
+
+degrees = dict(B.degree())
+threshold = np.mean(list(degrees.values()))
+
+core_nodes = [n for n, d in degrees.items() if d >= threshold]
+periphery_nodes = [n for n, d in degrees.items() if d < threshold]
+
+print("\nCore Nodes:", core_nodes)
+print("Periphery Nodes:", periphery_nodes)
+
+# -------------------------------
+# STEP 4: Identify Ties
+# -------------------------------
+
+core_core_ties = []
+core_periphery_ties = []
+periphery_periphery_ties = []
+
+for u, v in B.edges():
+    if u in core_nodes and v in core_nodes:
+        core_core_ties.append((u, v))
+    elif (u in core_nodes and v in periphery_nodes) or (u in periphery_nodes and v in core_nodes):
+        core_periphery_ties.append((u, v))
+    else:
+        periphery_periphery_ties.append((u, v))
+
+print("\nCore–Core Ties:", core_core_ties)
+print("Core–Periphery Ties:", core_periphery_ties)
+print("Periphery–Periphery Ties:", periphery_periphery_ties)
+
+# -------------------------------
+# STEP 5: Visualization
+# -------------------------------
+
+plt.figure(figsize=(7,7))
+pos = nx.spring_layout(B, seed=42)
+
+node_colors = []
+for n in B.nodes():
+    if n in core_nodes:
+        node_colors.append("red")
+    else:
+        node_colors.append("lightgray")
+
+edge_colors = []
+for u, v in B.edges():
+    if u in core_nodes and v in core_nodes:
+        edge_colors.append("red")
+    elif (u in core_nodes and v in periphery_nodes) or (u in periphery_nodes and v in core_nodes):
+        edge_colors.append("orange")
+    else:
+        edge_colors.append("gray")
+
+nx.draw(B, pos,
+        with_labels=True,
+        node_color=node_colors,
+        edge_color=edge_colors,
+        node_size=1800)
+
+plt.title("Practical 10: Two-Mode Core–Periphery Network\nRed = Core Nodes, Orange = Core–Periphery Ties")
+plt.show()
