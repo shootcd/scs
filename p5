@@ -1,0 +1,109 @@
+####edgelist, sociogram
+# Install and import required libraries
+!pip install networkx matplotlib numpy
+
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+
+# ====================================================
+# NETWORK 1: MATRIX REPRESENTATION
+# ====================================================
+
+print("\n--- NETWORK 1: MATRIX REPRESENTATION ---")
+
+adj_matrix_1 = np.array([
+    [0, 1, 1, 0],
+    [1, 0, 1, 1],
+    [1, 1, 0, 0],
+    [0, 1, 0, 0]
+])
+
+print("Adjacency Matrix:")
+print(adj_matrix_1)
+
+G1 = nx.from_numpy_array(adj_matrix_1)
+mapping1 = {0: 'A', 1: 'B', 2: 'C', 3: 'D'}
+G1 = nx.relabel_nodes(G1, mapping1)
+
+# Sociogram of Network 1
+plt.figure(figsize=(5,5))
+pos1 = nx.spring_layout(G1, seed=42)
+nx.draw(G1, pos1,
+        with_labels=True,
+        node_color="lightblue",
+        node_size=1800,
+        edge_color="gray")
+plt.title("Network 1: Sociogram (From Matrix)")
+plt.show()
+
+
+# ====================================================
+# NETWORK 2: EDGE LIST REPRESENTATION
+# ====================================================
+
+print("\n--- NETWORK 2: EDGE LIST REPRESENTATION ---")
+
+edge_list_2 = [
+    ('P', 'Q'),
+    ('P', 'R'),
+    ('Q', 'R'),
+    ('R', 'S')
+]
+
+print("Edge List:")
+print(edge_list_2)
+
+G2 = nx.Graph()
+G2.add_edges_from(edge_list_2)
+
+# Sociogram of Network 2
+plt.figure(figsize=(5,5))
+pos2 = nx.spring_layout(G2, seed=42)
+nx.draw(G2, pos2,
+        with_labels=True,
+        node_color="lightgreen",
+        node_size=1800,
+        edge_color="gray")
+plt.title("Network 2: Sociogram (From Edge List)")
+plt.show()
+
+
+# ====================================================
+# NETWORK 3: SOCIOGRAM (DIRECT GRAPH CREATION)
+# ====================================================
+
+print("\n--- NETWORK 3: SOCIOGRAM REPRESENTATION ---")
+
+G3 = nx.Graph()
+G3.add_edges_from([
+    ('X', 'Y'),
+    ('Y', 'Z'),
+    ('Z', 'W'),
+    ('W', 'X'),
+    ('X', 'Z')
+])
+
+print("Edges in Sociogram Network:")
+print(list(G3.edges()))
+
+# Sociogram of Network 3
+plt.figure(figsize=(5,5))
+pos3 = nx.spring_layout(G3, seed=42)
+nx.draw(G3, pos3,
+        with_labels=True,
+        node_color="orange",
+        node_size=1800,
+        edge_color="gray")
+plt.title("Network 3: Sociogram (Direct Graph)")
+plt.show()
+
+
+# ====================================================
+# DISPLAY COMPARISON SUMMARY
+# ====================================================
+
+print("\n--- COMPARISON SUMMARY ---")
+print("Network 1: Represented as an Adjacency Matrix")
+print("Network 2: Represented as an Edge List")
+print("Network 3: Represented as a Sociogram (Graph Object)")
