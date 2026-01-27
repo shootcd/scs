@@ -1,4 +1,6 @@
-
+###For a given network find the following: (i) Length of the shortest path 
+##from a given node to another node; (ii) the density of the graph; (iii) 
+##Draw egocentric network of node G with chosen configuration parameters. 
 library(igraph)
 matt <- as.matrix(read.table(text=
                                  "node R S T U
