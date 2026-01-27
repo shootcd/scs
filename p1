@@ -1,0 +1,61 @@
+###edges,degree,lowest,adjacency,matix
+# Install and import required libraries
+!pip install networkx matplotlib numpy
+
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Step 1: Create a sample network (you can change edges)
+G = nx.Graph()
+
+edges = [
+    ('A', 'B'), ('A', 'C'), ('B', 'C'),
+    ('B', 'D'), ('C', 'D'), ('D', 'E')
+]
+
+G.add_edges_from(edges)
+
+# Step 2: Compute basic properties
+num_nodes = G.number_of_nodes()
+num_edges = G.number_of_edges()
+degrees = dict(G.degree())
+
+lowest_degree_node = min(degrees, key=degrees.get)
+
+# Step 3: Print results
+print("Number of Nodes:", num_nodes)
+print("Number of Edges:", num_edges)
+
+print("\nDegree of Each Node:")
+for node, degree in degrees.items():
+    print(f"Node {node}: {degree}")
+
+print("\nNode with Lowest Degree:", lowest_degree_node)
+print("Lowest Degree Value:", degrees[lowest_degree_node])
+
+print("\nAdjacency List:")
+for node in G.adj:
+    print(f"{node}: {list(G.adj[node])}")
+
+adj_matrix = nx.to_numpy_array(G)
+print("\nAdjacency Matrix:")
+print(adj_matrix)
+
+# Step 4: Visualization (Sociogram)
+plt.figure(figsize=(6, 6))
+
+pos = nx.spring_layout(G, seed=42)  # fixed layout for reproducibility
+node_sizes = [1500 + degrees[n] * 800 for n in G.nodes()]
+
+nx.draw(
+    G, pos,
+    with_labels=True,
+    node_color='lightblue',
+    node_size=node_sizes,
+    edge_color='gray',
+    font_size=12
+)
+
+plt.title("Practical 1: Given Network (Node Size = Degree)")
+plt.show()
