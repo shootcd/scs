@@ -1,0 +1,96 @@
+##compute density,reciprocity etc
+# Install and import required libraries
+!pip install networkx matplotlib numpy
+
+import networkx as nx
+import matplotlib.pyplot as plt
+import numpy as np
+
+# -------------------------------
+# STEP 1: Create a Sample Network
+# -------------------------------
+
+# Use a directed graph to include reciprocity
+G = nx.DiGraph()
+
+edges = [
+    ('A', 'B'), ('B', 'A'),
+    ('A', 'C'),
+    ('B', 'C'),
+    ('C', 'D'),
+    ('D', 'B'),
+    ('D', 'E')
+]
+
+G.add_edges_from(edges)
+
+# -------------------------------
+# STEP 2: Compute Measures
+# -------------------------------
+
+# (i) Density
+density = nx.density(G)
+
+# (ii) Degree (total degree = in-degree + out-degree)
+degrees = dict(G.degree())
+
+# (iii) Reciprocity
+reciprocity = nx.reciprocity(G)
+
+# (iv) Transitivity
+transitivity = nx.transitivity(G)
+
+# (v) Centralization (Degree Centralization)
+degree_centrality = nx.degree_centrality(G)
+max_dc = max(degree_centrality.values())
+centralization = sum(max_dc - v for v in degree_centrality.values()) / (len(G.nodes()) - 1)
+
+# (vi) Clustering Coefficient
+clustering = nx.clustering(G.to_undirected())
+
+# -------------------------------
+# STEP 3: Print Results
+# -------------------------------
+
+print("Density:", round(density, 4))
+
+print("\nDegree of Each Node:")
+for node, deg in degrees.items():
+    print(f"Node {node}: {deg}")
+
+print("\nReciprocity:", round(reciprocity, 4))
+print("Transitivity:", round(transitivity, 4))
+
+print("\nDegree Centrality of Each Node:")
+for node, dc in degree_centrality.items():
+    print(f"Node {node}: {round(dc, 4)}")
+
+print("\nDegree Centralization (Network-Level):", round(centralization, 4))
+
+print("\nClustering Coefficient of Each Node:")
+for node, cc in clustering.items():
+    print(f"Node {node}: {round(cc, 4)}")
+
+print("\nAverage Clustering Coefficient:", round(nx.average_clustering(G.to_undirected()), 4))
+
+# -------------------------------
+# STEP 4: Visualization
+# -------------------------------
+
+plt.figure(figsize=(6, 6))
+pos = nx.spring_layout(G, seed=42)
+
+# Node size based on degree centrality
+node_sizes = [3000 * degree_centrality[n] + 800 for n in G.nodes()]
+
+nx.draw(
+    G, pos,
+    with_labels=True,
+    node_color="lightblue",
+    node_size=node_sizes,
+    edge_color="gray",
+    arrows=True
+)
+
+plt.title("Practical 3: Network (Node Size = Degree Centrality)")
+plt.show()
