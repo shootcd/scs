@@ -1,4 +1,7 @@
-##########prac5 but half
+##########prac5 but half Write a program to distinguish between a network as a matrix, a 
+##network as an edge list, and a network as a sociogram (or ―network 
+###graph‖) using 3 distinct networks representatives of each.
+
 library(igraph)
 a <- matrix(c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
                0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1), 9, 4)
