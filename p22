@@ -1,0 +1,95 @@
+### datasets python
+# -------------------------------
+# INSTALL LIBRARIES (RUN ONCE)
+# -------------------------------
+!pip install networkx matplotlib pandas numpy
+
+import pandas as pd
+import networkx as nx
+import matplotlib.pyplot as plt
+
+# -------------------------------
+# PART 1: LOAD CSV FILES
+# -------------------------------
+
+nodes_df = pd.read_csv("D:/MSc/Sem 3/nodes.csv")
+edges_df = pd.read_csv("D:/MSc/Sem 3/edges.csv")
+
+# -------------------------------
+# PART 2: STANDARDIZE COLUMN NAMES
+# -------------------------------
+
+# Nodes: id | media | media.type | type.label | audience.size
+nodes_df.columns = ["node_id", "media", "media_type", "type_label", "audience_size"]
+
+# Edges: from | to | weight | type
+edges_df.columns = ["source", "target", "weight", "relation"]
+
+# -------------------------------
+# PART 3: CREATE GRAPH
+# -------------------------------
+
+G = nx.Graph()
+
+# Add nodes with attributes
+for _, row in nodes_df.iterrows():
+    G.add_node(
+        row["node_id"],
+        media=row["media"],
+        media_type=row["media_type"],
+        audience_size=row["audience_size"]
+    )
+
+# Add edges with weight
+for _, row in edges_df.iterrows():
+    G.add_edge(
+        row["source"],
+        row["target"],
+        weight=row["weight"],
+        relation=row["relation"]
+    )
+
+# -------------------------------
+# PART 4: VISUALIZE NETWORK (FIXED EDGES)
+# -------------------------------
+
+plt.figure(figsize=(9, 9))
+pos = nx.spring_layout(G, seed=42, k=0.4)
+
+nx.draw_networkx_nodes(
+    G, pos,
+    node_color="lightblue",
+    node_size=1500
+)
+
+nx.draw_networkx_edges(
+    G, pos,
+    edge_color="black",
+    width=2,
+    alpha=0.9
+)
+
+nx.draw_networkx_labels(G, pos, font_size=9)
+
+plt.title("Media Interaction Network (Self-loops Removed)")
+plt.axis("off")
+plt.show()
+
+
+
+
+
+# -------------------------------
+# PART 5: ADJACENCY MATRIX
+# -------------------------------
+
+adj_matrix = nx.to_numpy_array(G)
+print("Adjacency Matrix:")
+print(adj_matrix)
+
+# -------------------------------
+# PART 6: DEGREE CENTRALITY
+# -------------------------------
+
+print("\nDegree Centrality:")
+print(nx.degree_centrality(G))
