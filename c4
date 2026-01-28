@@ -1,0 +1,13 @@
+###prac 4  vulnerability scanning and assessmen
+sudo nmap --script vuln Ipofmetasplot -v
+
+zaproxy if not then install
+sudo apt update 
+sudo apt install zaproxy
+
+open firefox put Ip of Metasploit open one of the files copy its path 
+come back to zaproxy
+click on automated scanning
+paste the url copied from firefox 
+in with choose firefox headless
+
