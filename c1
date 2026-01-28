@@ -1,0 +1,22 @@
+####Prac1 installation
+Prac1
+VM ware
+https://www.kali.org/get-kali/#kali-virtual-machines
+
+
+
+https://knowledge.broadcom.com/external/article/344595/downloading-and-installing-vmware-workst.html
+Workstation link
+
+
+https://www.rapid7.com/products/metasploit/metasploitable/
+Metasploit
+
+
+Open workstation
+open vm ware on it 
+clone
+settings-> hardware-> network adatpter->Nat
+
+run both Metasploit and kali terminal
+
