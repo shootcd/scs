@@ -68,3 +68,8 @@ with:
 adj_matrix = pd.read_csv("adj.csv", header=None).values
 
 Everything else stays the same.
+
+###########
+https://www.geeksforgeeks.org/r-language/how-to-use-r-with-google-colaboratory/
+
+%load_ext rpy2.ipython
