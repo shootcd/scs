@@ -1,0 +1,40 @@
+###prac 7 and 9 same
+
+
+####Exploiting Web-based applications / SQL Injection
+
+git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap-dev
+cd sqlmap-dev
+
+git clone https://github.com/digininja/DVWA.git
+wget https://raw.githubusercontent.com/IamCarron/DVWA-Script/main/Install-DVWA.sh
+chmod +x Install-DVWA.sh
+sudo ./Install-DVWA.sh  (username-root , keep pass empty)
+
+sudo service apache status
+sudo service apache restart
+sudo service MySQL status
+
+
+go to firefox and then 
+127.0.1.1/DVWA/setup.php
+then click on create dataset
+then go to 
+127.0.1.1/DVWA/login.php
+
+username is admin and pass is password
+
+then change go to security and change level to low
+then sql injection
+right click inspect
+then network-> header-> cookies
+then type random no and submit then 
+
+then come to terminal
+python sqlmap.py -u "path of dvwainjection" --cookie="cookie flag" --tables
+then try y n etc etc
+
+
+for help 
+python sqlmap.py -h
+python sqlmap.py -u "path of dvwainjection" --cookie="cookie flag" -T users --dump
