@@ -1,0 +1,70 @@
+TIPS FOR MANUAL DATASET OR CSV FILES HOW TO USE IN COLAB
+
+
+You must upload the CSV file first.
+
+CODE (always run in new cell) :-
+
+from google.colab import files
+uploaded = files.upload()
+
+
+once done step 2.
+
+Case 1: Two-Mode CSV (Persons–Committees)
+
+Suppose they give you: dataset.csv :- 
+
+Replace this old block: :-
+
+data = {
+    "Person": ["P1", "P1", "P2", "P2", "P3", "P4", "P4"],
+    "Committee": ["C1", "C2", "C1", "C3", "C2", "C2", "C3"]
+}
+
+df = pd.DataFrame(data)
+
+with new block :-
+
+df = pd.read_csv("dataset.csv")
+
+Everything else stays exactly the same.
+
+
+Case 2: One-Mode CSV (Edge List)
+
+Suppose they give you: edges.csv
+
+Replace:
+
+edges = [
+    ('A', 'B'), ('A', 'C'),
+    ('B', 'C'), ('C', 'D'),
+    ('D', 'E')
+]
+
+with
+
+df = pd.read_csv("edges.csv")
+edges = list(zip(df["Header 1 in csv file"], df["Header 2 in csv fil"]))
+
+Everything else stays the same.
+
+
+Case 3: CSV as Adjacency Matrix.
+
+
+Replace:
+
+adj_matrix = np.array([
+    [0, 1, 1, 0],
+    [1, 0, 1, 1],
+    [1, 1, 0, 0],
+    [0, 1, 0, 0]
+])
+
+with:
+
+adj_matrix = pd.read_csv("adj.csv", header=None).values
+
+Everything else stays the same.
