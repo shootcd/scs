@@ -8,3 +8,11 @@ waybackmachine ,
  i have been pawend ,
 whois
 
+whois wikimedia.org
+nslookup wikimedia.org
+dig wikimedia.org
+sudo apt update
+sudo apt install theharvester
+theHarvester -d wikimedia.org -b crtsh
+
+
