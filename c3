@@ -7,3 +7,17 @@ sudo nmap -sn -v ip of Metasploit(host scan)
 
 sudo masscan Ip of Metasploit -p1-65535 --rate=100000
 
+##############################33
+on vitim
+ifconfig
+
+on Linux
+ifconfig
+nmap --version
+nmap -sn 192.168.56.101
+nmap -A 192.168.56.101
+nmap -sV 192.168.56.101
+nmap -O 192.168.56.101
+#one command for all
+nmap -A 192.168.56.101
+
