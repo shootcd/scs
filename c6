@@ -1,0 +1,18 @@
+###prac 6:Practical on Wireless and Bluetooth attacks 
+
+ip link
+iw dev
+sudo airmon-ng check kill
+sudo airmon-ng start wlan0
+sudo airodump-ng wlan0mon
+sudo airmon-ng stop wlan0mon
+sudo systemctl restart NetworkManager
+
+sudo systemctl start bluetooth
+bluetoothctl show
+bluetoothctl scan on
+bluetoothctl scan off
+exit
+
+# Alternative Bluetooth scan
+sudo hcitool scan
