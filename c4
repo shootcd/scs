@@ -11,3 +11,10 @@ click on automated scanning
 paste the url copied from firefox 
 in with choose firefox headless
 
+#####################
+map --version
+sudo nmap --script-updated
+nmap -sV 192.168.56.101
+sudo nmap --script vuln 192.168.56.101
+nmap --script ssh-* 192.168.56.101
+nmap --script http-vuln* 192.168.56.101
